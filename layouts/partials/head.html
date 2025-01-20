@@ -33,7 +33,6 @@
 <script src="https://unpkg.com/lunr@2.1.6/lunr.js"></script>
 <script src="/js/offline-search.js"></script>
 {{end}}
-{{ partial "hooks/head-end.html" . }}
 
 <!-- Docsy head.html ends here -->
 
@@ -56,9 +55,9 @@
 {{ partial "css.html" . }}
 <!-- Content for social media sharing previews -->
 <!-- Facebook uses the og: stuff, while Twitter and others use twitter: -->
-<meta name="description" content="{{ if .Params.description }}{{ .Params.description }}{{ else }}{{ .Summary }}{{ end }}">
-<meta property="og:description" content="{{ if .Params.description }}{{ .Params.description }}{{ else }}{{ .Summary }}{{ end }}">
-<meta name="twitter:description" content="{{ if .Params.description }}{{ .Params.description }}{{ else }}{{ .Summary }}{{ end }}">
+<meta name="description" content="{{ template "partials/page-description.html" . }}">
+<meta property="og:description" content="{{ template "partials/page-description.html" . }}">
+<meta name="twitter:description" content="{{ template "partials/page-description.html" . }}">
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:title" content="{{ if .Params.title }}{{ .Title }}{{ else }}{{ .Summary | truncate 10 }}{{ end }}">
 <meta name="twitter:title" content="{{ if .Params.title }}{{ .Title }}{{ else }}{{ .Summary | truncate 10 }}{{ end }}">
@@ -74,43 +73,15 @@
 {{ end }}
 <meta property="og:type" content="{{ $ogType }}">
 
-{{ if .HasShortcode "mermaid" }}
-<!-- Copied from https://unpkg.com/mermaid@10.6.1/dist/mermaid.min.js -->
-<script async src="/js/mermaid-10.6.1.min.js" integrity="sha384-+NGfjU8KzpDLXRHduEqW+ZiJr2rIg+cidUVk7B51R5xK7cHwMKQfrdFwGdrq1Bcz" crossorigin="anonymous"></script>
-{{ end }}
-
 <script src="/js/jquery-3.6.0.min.js" intregrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK" crossorigin="anonymous"></script>
 <!--script src="https://unpkg.com/split.js/dist/split.min.js"></script-->
 <script src="/js/split-1.6.0.js" intregrity="sha384-0blL3GqHy6+9fw0cyY2Aoiwg4onHAtslAs4OkqZY7UQBrR65/K4gI+hxLdWDrjpz"></script>
 
-<!--Script for dismissing banners/notices-->
-<script defer src="{{ "js/dismiss_banner.js" | relURL }}"></script>
-
-
-{{- if or (.HasShortcode "table")  (.HasShortcode "feature-gate-table") -}}
-<script defer src="{{ "js/sortable-table.js" | relURL }}"></script>
-{{- end -}}
-
-{{- if .HasShortcode "release-binaries" -}}
-<script defer src="{{ "js/release_binaries.js" | relURL }}"></script>
-{{- end -}}
-
-{{- if .HasShortcode "cncf-landscape" -}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.9/iframeResizer.min.js" integrity="sha384-hHTwgxzjpO1G1NI0wMHWQYUxnGtpWyDjVSZrFnDrlWa5OL+DFY57qnDWw/5WSJOl" crossorigin="anonymous"></script>
-{{- end -}}
-
-<!-- Enable zoom-on-click for figures that opt in to this -->
-{{- if .HasShortcode "figure" -}}
-<script defer src="{{ "js/zoom.js" | relURL }}"></script>
-{{- end -}}
-
 {{- if eq (lower .Params.cid) "community" -}}
-{{- if eq .Params.community_styles_migrated true -}}
-<link href="/css/community.css" rel="stylesheet"><!-- legacy styles -->
-{{- else -}}
-<link href="/css/legacy_community.css" rel="stylesheet">
-{{- end -}}
 <script defer src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 {{- end -}}
 {{ with .Params.js }}{{ range (split . ",") }}<script src="{{ (trim . " ") | relURL }}"></script><!-- custom js added -->
 {{ end }}{{ else }}<!-- no custom js detected -->{{ end }}
+
+{{/* make sure that head-end hook comes last */}}
+{{ partial "hooks/head-end.html" . }}

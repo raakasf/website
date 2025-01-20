@@ -292,7 +292,7 @@ the EndpointSlice manifest: a TCP connection to 10.1.2.3 or 10.4.5.6, on port 93
 
 {{< note >}}
 The Kubernetes API server does not allow proxying to endpoints that are not mapped to
-pods. Actions such as `kubectl proxy <service-name>` where the service has no
+pods. Actions such as `kubectl port-forward service/<service-name> forwardedPort:servicePort` where the service has no
 selector will fail due to this constraint. This prevents the Kubernetes API server
 from being used as a proxy to endpoints the caller may not be authorized to access.
 {{< /note >}}
@@ -525,8 +525,6 @@ spec:
 
 #### Reserve Nodeport ranges to avoid collisions  {#avoid-nodeport-collisions}
 
-{{< feature-state for_k8s_version="v1.29" state="stable" >}}
-
 The policy for assigning ports to NodePort services applies to both the auto-assignment and
 the manual assignment scenarios. When a user wants to create a NodePort service that
 uses a specific port, the target port may conflict with another port that has already been assigned.
@@ -683,14 +681,11 @@ The value of `spec.loadBalancerClass` must be a label-style identifier,
 with an optional prefix such as "`internal-vip`" or "`example.com/internal-vip`".
 Unprefixed names are reserved for end-users.
 
-#### Specifying IPMode of load balancer status {#load-balancer-ip-mode}
+#### Load balancer IP address mode {#load-balancer-ip-mode}
 
 {{< feature-state feature_gate_name="LoadBalancerIPMode" >}}
 
-As a Beta feature in Kubernetes 1.30,
-a [feature gate](/docs/reference/command-line-tools-reference/feature-gates/) 
-named `LoadBalancerIPMode` allows you to set the `.status.loadBalancer.ingress.ipMode` 
-for a Service with `type` set to `LoadBalancer`. 
+For a Service of `type: LoadBalancer`, a controller can set `.status.loadBalancer.ingress.ipMode`. 
 The `.status.loadBalancer.ingress.ipMode` specifies how the load-balancer IP behaves. 
 It may be specified only when the `.status.loadBalancer.ingress.ip` field is also specified.
 
@@ -727,16 +722,16 @@ Select one of the tabs.
 metadata:
   name: my-service
   annotations:
-      networking.gke.io/load-balancer-type: "Internal"
+    networking.gke.io/load-balancer-type: "Internal"
 ```
 {{% /tab %}}
 {{% tab name="AWS" %}}
 
 ```yaml
 metadata:
-    name: my-service
-    annotations:
-        service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+  name: my-service
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-internal: "true"
 ```
 
 {{% /tab %}}
@@ -746,7 +741,7 @@ metadata:
 metadata:
   name: my-service
   annotations:
-      service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
 ```
 
 {{% /tab %}}
@@ -756,7 +751,7 @@ metadata:
 metadata:
   name: my-service
   annotations:
-      service.kubernetes.io/ibm-load-balancer-cloud-provider-ip-type: "private"
+    service.kubernetes.io/ibm-load-balancer-cloud-provider-ip-type: "private"
 ```
 
 {{% /tab %}}
@@ -804,7 +799,7 @@ metadata:
 metadata:
   name: my-service
   annotations:
-      service.beta.kubernetes.io/oci-load-balancer-internal: true
+    service.beta.kubernetes.io/oci-load-balancer-internal: true
 ```
 {{% /tab %}}
 {{< /tabs >}}

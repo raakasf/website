@@ -24,7 +24,7 @@ Analizando a detalle, cada hearbeat es una solicitud **update** a este objeto `L
 el campo `spec.renewTime` del objeto Lease. El plano de control de Kubernetes utiliza la marca de tiempo de este campo
 para determinar la disponibilidad de este «Nodo».
 
-Ve [Objetos Lease de nodos](/docs/concepts/architecture/nodes/#heartbeats) para más detalles.
+Ve [Objetos Lease de nodos](/docs/concepts/architecture/nodes/#node-heartbeats) para más detalles.
 
 ## Elección del líder
 
@@ -45,7 +45,7 @@ La existencia de los objetos leases de kube-apiserver permite futuras capacidade
 cada kube-apiserver.
 
 Puedes inspeccionar los leases de cada kube-apiserver buscando objetos leases en el namespace `kube-system`
-con el nombre `kube-apiserver-<sha256-hash>`. También puedes utilizar el selector de etiquetas `apiserver.kubernetes.io/identity=kube-apiserver`:
+con el nombre `apiserver-<sha256-hash>`. También puedes utilizar el selector de etiquetas `apiserver.kubernetes.io/identity=kube-apiserver`:
 
 ```shell
 kubectl -n kube-system get lease -l apiserver.kubernetes.io/identity=kube-apiserver

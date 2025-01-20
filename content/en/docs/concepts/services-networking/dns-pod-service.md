@@ -77,7 +77,7 @@ depending on the IP family or families of the Service, with a name of the form
 of the Service.
 
 [Headless Services](/docs/concepts/services-networking/service/#headless-services) 
-(without a cluster IP) Services are also assigned DNS A and/or AAAA records,
+(without a cluster IP) are also assigned DNS A and/or AAAA records,
 with a name of the form `my-svc.my-namespace.svc.cluster-domain.example`.  Unlike normal
 Services, this resolves to the set of IPs of all of the Pods selected by the Service.
 Clients are expected to consume the set or else use standard round-robin
@@ -191,8 +191,7 @@ An {{<glossary_tooltip term_id="endpoint-slice" text="EndpointSlice">}} can spec
 the DNS hostname for any endpoint addresses, along with its IP.
 
 {{< note >}}
-Because A and AAAA records are not created for Pod names, `hostname` is required for the Pod's A or AAAA
-record to be created. A Pod with no `hostname` but with `subdomain` will only create the
+A and AAAA records are not created for Pod names since `hostname` is missing for the Pod. A Pod with no `hostname` but with `subdomain` will only create the
 A or AAAA record for the headless Service (`busybox-subdomain.my-namespace.svc.cluster-domain.example`),
 pointing to the Pods' IP addresses. Also, the Pod needs to be ready in order to have a
 record unless `publishNotReadyAddresses=True` is set on the Service.
