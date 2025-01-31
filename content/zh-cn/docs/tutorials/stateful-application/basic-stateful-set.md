@@ -138,12 +138,12 @@ It creates a [headless Service](/docs/concepts/services-networking/service/#head
 
 <!--
 You will need to use at least two terminal windows. In the first terminal, use
-[`kubectl get`](/docs/reference/generated/kubectl/kubectl-commands/#get) to watch the creation
+[`kubectl get`](/docs/reference/generated/kubectl/kubectl-commands/#get) to {{< glossary_tooltip text="watch" term_id="watch" >}} the creation
 of the StatefulSet's Pods.
 -->
 你需要使用至少两个终端窗口。在第一个终端中，使用
 [`kubectl get`](/docs/reference/generated/kubectl/kubectl-commands/#get)
-来监视 StatefulSet 的 Pod 的创建情况。
+来{{< glossary_tooltip text="监视" term_id="watch" >}} StatefulSet 的 Pod 的创建情况。
 
 <!--
 # use this terminal to run commands that specify --watch
@@ -984,7 +984,7 @@ image again:
 在一个终端窗口中对 `web` StatefulSet 执行 patch 操作来再次改变容器镜像：
 
 ```shell
-kubectl patch statefulset web --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value":"registry.k8s.io/nginx-slim:0.8"}]'
+kubectl patch statefulset web --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value":"registry.k8s.io/nginx-slim:0.24"}]'
 ```
 ```
 statefulset.apps/web patched
@@ -1078,9 +1078,9 @@ Get the Pods to view their container images:
 for p in 0 1 2; do kubectl get pod "web-$p" --template '{{range $i, $c := .spec.containers}}{{$c.image}}{{end}}'; echo; done
 ```
 ```
-registry.k8s.io/nginx-slim:0.8
-registry.k8s.io/nginx-slim:0.8
-registry.k8s.io/nginx-slim:0.8
+registry.k8s.io/nginx-slim:0.24
+registry.k8s.io/nginx-slim:0.24
+registry.k8s.io/nginx-slim:0.24
 ```
 
 <!--
@@ -1154,7 +1154,7 @@ StatefulSet uses:
 再次 Patch StatefulSet 来改变此 StatefulSet 使用的容器镜像：
 
 ```shell
-kubectl patch statefulset web --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value":"registry.k8s.io/nginx-slim:0.7"}]'
+kubectl patch statefulset web --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value":"registry.k8s.io/nginx-slim:0.21"}]'
 ```
 ```
 statefulset.apps/web patched
@@ -1201,7 +1201,7 @@ Get the Pod's container image:
 kubectl get pod web-2 --template '{{range $i, $c := .spec.containers}}{{$c.image}}{{end}}'
 ```
 ```
-registry.k8s.io/nginx-slim:0.8
+registry.k8s.io/nginx-slim:0.24
 ```
 
 <!--
@@ -1280,7 +1280,7 @@ Get the Pod's container:
 kubectl get pod web-2 --template '{{range $i, $c := .spec.containers}}{{$c.image}}{{end}}'
 ```
 ```
-registry.k8s.io/nginx-slim:0.7
+registry.k8s.io/nginx-slim:0.21
 ```
 
 <!--
@@ -1344,7 +1344,7 @@ Get the `web-1` Pod's container image:
 kubectl get pod web-1 --template '{{range $i, $c := .spec.containers}}{{$c.image}}{{end}}'
 ```
 ```
-registry.k8s.io/nginx-slim:0.8
+registry.k8s.io/nginx-slim:0.24
 ```
 
 <!--
@@ -1432,9 +1432,9 @@ Get the container image details for the Pods in the StatefulSet:
 for p in 0 1 2; do kubectl get pod "web-$p" --template '{{range $i, $c := .spec.containers}}{{$c.image}}{{end}}'; echo; done
 ```
 ```
-registry.k8s.io/nginx-slim:0.7
-registry.k8s.io/nginx-slim:0.7
-registry.k8s.io/nginx-slim:0.7
+registry.k8s.io/nginx-slim:0.21
+registry.k8s.io/nginx-slim:0.21
+registry.k8s.io/nginx-slim:0.21
 ```
 
 <!--
